@@ -1,0 +1,48 @@
+package com.rongill.rsg.sinprojecttest;
+
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+public class MainActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseUser mFirebaseUser;
+    private TextView mUsername;
+    private Button signoutBTN;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mAuth.getCurrentUser();
+        mUsername = (TextView)findViewById(R.id.user_name_TV);
+        signoutBTN = (Button)findViewById(R.id.signout_btn);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(mFirebaseUser == null){
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+
+        }else{
+            mUsername.setText(mFirebaseUser.getDisplayName().toString());
+        }
+    }
+
+    public void signOut(View v){
+        mAuth.signOut();
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
+
+    }
+}
