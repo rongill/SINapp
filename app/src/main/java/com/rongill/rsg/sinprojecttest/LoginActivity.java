@@ -1,25 +1,31 @@
 package com.rongill.rsg.sinprojecttest;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.text.TextUtils;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "Login";
     private FirebaseAuth mFirebaseAuth;
-    private EditText email, password;
+    private EditText emailET;
+    private EditText passwordET;
 
 
     @Override
@@ -29,21 +35,26 @@ public class LoginActivity extends AppCompatActivity {
 
         //Edit text init-
 
-        email = (EditText)findViewById(R.id.email);
-        password = (EditText)findViewById(R.id.password);
+
+        emailET = (EditText)findViewById(R.id.emailLogin);
+        passwordET = (EditText)findViewById(R.id.passwordLogin);
+        findViewById(R.id.btnLogin).setOnClickListener(this);
 
         // Firebase shared instance init-
         mFirebaseAuth = FirebaseAuth.getInstance();
 
     }
 
-    public void loginOrSignup(View v){
 
-        if( !email.getText().toString().equals("") ){
-            if (password.getText().toString().equals(""))
+
+
+    public void loginOrSignup(String email, String password){
+
+        if( !email.isEmpty() ){
+            if (password.equals(""))
                 Toast.makeText(this, "please enter a password", Toast.LENGTH_LONG).show();
             else{
-                mFirebaseAuth.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+                mFirebaseAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>(){
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -75,14 +86,27 @@ public class LoginActivity extends AppCompatActivity {
 
         }else{
             Toast.makeText(this, "Authentiacation failed",Toast.LENGTH_LONG).show();
-            email.setText("");
-            password.setText("");
+            emailET.setText("");
+            passwordET.setText("");
         }
 
     }
 
-    public void forgotPasswordRequest(View v){
+    public void forgotPasswordRequest(){
         Intent i = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(i);
+        finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        int i = v.getId();
+        if(i == R.id.btnLogin){
+            loginOrSignup(emailET.getText().toString(), passwordET.getText().toString());
+
+        } else {
+            forgotPasswordRequest();
+        }
     }
 }

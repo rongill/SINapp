@@ -20,4 +20,6 @@
     <string name="confirm_email">Confirm email</string>
     <string name="sign_up">Sign up</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="nextBtn">Next</string>
+    <string name="sign_inTV">Sign-in</string>
 </resources>

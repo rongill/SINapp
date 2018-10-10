@@ -18,7 +18,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SignupActivity extends AppCompatActivity {
 
     private static final String TAG = "SignupActivity";
-    private EditText email, confirmEmail, password, confirmPassword;
+    private EditText emailET, confirmEmail, passwordET, confirmPassword;
     private FirebaseAuth mFirebaseAuth;
 
 
@@ -27,9 +27,9 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        email = (EditText)findViewById(R.id.email);
+        emailET = (EditText)findViewById(R.id.emailSignup);
         confirmEmail = (EditText)findViewById(R.id.confirm_email);
-        password = (EditText)findViewById(R.id.password);
+        passwordET = (EditText)findViewById(R.id.passwordSignup);
         confirmPassword = (EditText)findViewById(R.id.confirm_password);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -37,8 +37,18 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void signUp(View v){
-        if(validateEmailAndPassword()){
-            mFirebaseAuth.createUserWithEmailAndPassword(email.getText().toString(), password.getText().toString())
+        String []email = new String[2];
+        String []password = new String[2];
+
+        if(emailET!=null && passwordET != null && confirmEmail!=null && confirmPassword != null) {
+            email[0] = emailET.getText().toString();
+            email[1] = confirmEmail.getText().toString();
+            password[0] = passwordET.getText().toString();
+            password[1] = confirmPassword.getText().toString();
+        }
+        // check that both fields are filled
+        if(validateEmailAndPassword(email, password)){
+            mFirebaseAuth.createUserWithEmailAndPassword(email[0], password[0])
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -69,9 +79,8 @@ public class SignupActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateEmailAndPassword(){
-        if(email.getText().toString().equals(confirmEmail.getText().toString())
-                && password.getText().toString().equals(confirmPassword.getText().toString()))
+    private boolean validateEmailAndPassword(String[] email, String[] password){
+        if(email[0].equals(email[1]) && password[0].equals(password[1]))
             return true;
         return false;
     }
