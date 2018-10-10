@@ -22,4 +22,12 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="nextBtn">Next</string>
     <string name="sign_inTV">Sign-in</string>
+    <string name="your_name_profileET">Your Name</string>
+    <string name="profile_telephoneEThint">Telephone</string>
+    <string name="preferences_profile_CB_header">Preferences:</string>
+    <string name="profile_sportCB">sport</string>
+    <string name="profile_clothingCB">clothing</string>
+    <string name="profile_gadgetsCB">gadgets</string>
+    <string name="profile_foodCB">food</string>
+    <string name="profile_confirmBTN">Confirm your profile</string>
 </resources>

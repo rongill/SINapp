@@ -71,7 +71,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void updateUI(Boolean state){
         if(state){
-            startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this, CreateUserPrifileActivity.class));
             finish();
         }
         else{
@@ -80,7 +80,9 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private boolean validateEmailAndPassword(String[] email, String[] password){
-        if(email[0].equals(email[1]) && password[0].equals(password[1]))
+        if(email[0].isEmpty()||email[1].isEmpty()||password[0].isEmpty()||password[1].isEmpty()){
+            Toast.makeText(this, "please fill all fields", Toast.LENGTH_LONG).show();
+        } else if(email[0].equals(email[1]) && password[0].equals(password[1]))
             return true;
         return false;
     }
