@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
         }else{
-            mUsername.setText(user.getDisplayName());
+            mUsername.setText(user.getEmail());
         }
     }
 
